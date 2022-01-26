@@ -35,12 +35,19 @@ public class Words {
         return false;
     }
 
+    public boolean isThereAWordTwice() {
+        int count = 0;
+        for (int i = 0; i < words.size(); i++) {
+            for (int j = 0; j < words.size(); j++) {
+                if (words.get(i).equals(words.get(j))) {
+                    count++;
+                }
+            }
+        }
+        return count > words.size();
+    }
+
 //    public boolean isThereAWordTwice() {
-//        int counter = 0;
-//        for (String actual : words) {
-//            if ()
-//
-//        }
-//        return true;
+//        return words.stream().count()!=words.stream().distinct().count();
 //    }
 }

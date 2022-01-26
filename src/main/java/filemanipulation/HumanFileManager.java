@@ -6,6 +6,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HumanFileManager {
 
@@ -47,25 +48,37 @@ public class HumanFileManager {
         }
     }
 
+    //        private List<Human> getMaleHumans(List<Human> humans) {
+//        List<Human> males = new ArrayList<>();
+//        for (Human actual : humans) {
+//            if (isMale(actual)) {
+//                males.add(actual);
+//            }
+//        }
+//        return males;
+//    }
+
     private List<Human> getMaleHumans(List<Human> humans) {
-        List<Human> males = new ArrayList<>();
-        for (Human actual : humans) {
-            if (isMale(actual)) {
-                males.add(actual);
-            }
-        }
-        return males;
+        return humans.stream()
+                .filter(human -> isMale(human))
+                .collect(Collectors.toList());
     }
 
     private boolean isMale(Human human) {
         return human.getIdentityNumber().startsWith("1") || human.getIdentityNumber().startsWith("3");
     }
 
+//    private List<String> malesToText(List<Human> males) {
+//        List<String> result = new ArrayList<>();
+//        for (Human actual : males) {
+//            result.add(actual.getName() + ";" + actual.getIdentityNumber());
+//        }
+//        return result;
+//    }
+
     private List<String> malesToText(List<Human> males) {
-        List<String> result = new ArrayList<>();
-        for (Human actual : males) {
-            result.add(actual.getName() + ";" + actual.getIdentityNumber());
-        }
-        return result;
+        return males.stream()
+                .map(male -> male.getName() + ";" + male.getIdentityNumber())
+                .collect(Collectors.toList());
     }
 }

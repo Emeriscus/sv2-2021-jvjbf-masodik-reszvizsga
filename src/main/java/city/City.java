@@ -2,6 +2,7 @@ package city;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class City {
 
@@ -34,47 +35,70 @@ public class City {
         }
     }
 
-    private long getSumAreaOfBuildings(List<Building> buildings) {
-        long result = 0;
+//    private long getSumAreaOfBuildings(List<Building> buildings) {
+//        long result = 0;
+//
+//        for (Building actual : buildings) {
+//            result += actual.getArea();
+//        }
+//        return result;
+//    }
 
-        for (Building actual : buildings) {
-            result += actual.getArea();
-        }
-        return result;
+    private long getSumAreaOfBuildings(List<Building> buildings) {
+        return buildings.stream()
+                .mapToInt(Building::getArea)
+                .sum();
     }
+
+//    public Building findHighestBuilding() {
+//        Building result = null;
+//        int maxlevel = 0;
+//
+//        for (Building actual : buildings) {
+//            if (actual.getLevels() > maxlevel) {
+//                maxlevel = actual.getLevels();
+//                result = actual;
+//            }
+//        }
+//        return result;
+//    }
 
     public Building findHighestBuilding() {
-        Building result = null;
-        int maxlevel = 0;
-
-        for (Building actual : buildings) {
-            if (actual.getLevels() > maxlevel) {
-                maxlevel = actual.getLevels();
-                result = actual;
-            }
-        }
-        return result;
+        return buildings.stream()
+                .max((o1, o2) -> o1.getLevels() - o2.getLevels())
+                .orElseThrow();
     }
+
+//    public List<Building> findBuildingsByStreet(String street) {
+//        List<Building> result = new ArrayList<>();
+//
+//        for (Building actual : buildings) {
+//            if (actual.getAddress().getStreet().equals(street)) {
+//                result.add(actual);
+//            }
+//        }
+//        return result;
+//    }
 
     public List<Building> findBuildingsByStreet(String street) {
-        List<Building> result = new ArrayList<>();
-
-        for (Building actual : buildings) {
-            if (actual.getAddress().getStreet().equals(street)) {
-                result.add(actual);
-            }
-        }
-        return result;
+        return buildings.stream()
+                .filter(building -> building.getAddress().getStreet().equals(street))
+                .collect(Collectors.toList());
     }
 
-    public boolean isThereBuildingWithMorePeopleThan(int numberOfPeople) {
-        List<Office> offices = new ArrayList<>();
+//    public boolean isThereBuildingWithMorePeopleThan(int numberOfPeople) {
+//        List<Office> offices = new ArrayList<>();
+//
+//        for (Building actual : buildings) {
+//            if (actual.calculateNumberOfPeopleCanFit() > numberOfPeople) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-        for (Building actual : buildings) {
-            if (actual.calculateNumberOfPeopleCanFit() > numberOfPeople) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isThereBuildingWithMorePeopleThan(int numberOfPeople) {
+        return buildings.stream()
+                .anyMatch(building -> building.calculateNumberOfPeopleCanFit() > numberOfPeople);
     }
 }
