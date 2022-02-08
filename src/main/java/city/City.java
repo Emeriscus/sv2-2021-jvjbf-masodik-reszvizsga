@@ -1,6 +1,7 @@
 package city;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +66,8 @@ public class City {
 
     public Building findHighestBuilding() {
         return buildings.stream()
-                .max((o1, o2) -> o1.getLevels() - o2.getLevels())
+                .max((o1, o2) -> o1.getLevels() - o2.getLevels())// vagy:
+//                .max(Comparator.comparing(Building::getLevels))
                 .orElseThrow();
     }
 
